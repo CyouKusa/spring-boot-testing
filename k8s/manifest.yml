@@ -1,20 +1,44 @@
+# k8s文件夹中应该放的yml文件是Kubernetes资源对象定义文件
+# 根据项目需求可以作成多个文件(Deployment.yaml- pod相关配置,service.yaml- 定义service与访问方式, 暴露pod,ingress.yaml- 配置路由等)分别配置对应的设置
+# 也可以全部在manifest.yml中进行配置
+# pod是一个共享网络IP,存储,配置环境的盒子, 盒子中可以放多个docker(一般是主容器+日志收集容器这种主次结构). 
+# Kubernetes只操作pod, 通过配置pod来实现docker的配置
+# 执行kubectl命令手动指定yml文件路径或要遍历的整个k8s文件夹路径, 来让Kubernetes读取相关配置进行docker的编排(对路径没有强制要求)
+
+# apiVersion指定Kubernetes在识别本配置并进行操作时调用的API版本, apps/v1是Deployment的正式版
 apiVersion: apps/v1
+# 指定本部分配置说明配置的是Deployment的pod相关配置
 kind: Deployment
+# 指定部署对象名
 metadata:
   name: app-deployment
+# 对deployment的配置
 spec:
+# pod数指定为1个 
   replicas: 1
+#  选择器, 用于指定要进行配置的pod
   selector:
+# 指定选择(匹配)方式为标签匹配,只匹配标签集合中与下面写的键值对完全匹配的pod
     matchLabels:
+# 要求匹配的pod的标签为此键值对
       app: spring-boot-testing
+# 模版指定pod的格式(kubernetes根据这个模板创建pod)
   template:
+# 指定元数据
     metadata:
+# 指定pod的标签为此键值对,与选择器匹配上了
       labels:
         app: spring-boot-testing
+# pod的规范,定义pod具体内容给你
     spec:
+# pod容器列表
       containers:
+# 指定容器名
         - name: spring-boot-testing-ctr
+# 指定docker镜像的地址和版本
+# docker镜像可以是Docker hub上的云端镜像, 也可以是本地使用docker构建的镜像(这里制定了一个云端镜像)
           image: mohyehia99/spring-boot-testing:0.0.7
+# 指定容器的监听端口及协议
           ports:
             - containerPort: 9090
               protocol: TCP

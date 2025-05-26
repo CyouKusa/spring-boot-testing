@@ -4,7 +4,7 @@ import lombok.Data;
 
 import java.util.HashMap;
 import java.util.Map;
-
+//ValidationError相比于ApiError要多一个Map属性, 用于放校验的报错
 @Data
 public class ValidationError {
     private String statusCode;

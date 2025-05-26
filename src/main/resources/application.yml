@@ -1,10 +1,23 @@
+# 项目配置参数文件, 是application.properties的升级版
+
+# springboot内嵌服务器的相关配置(springboot自带tomcat),配置服务器启动时的端口地址线程等参数
 server:
+# 配置servlet容器(tomcat)的相关配置, 比如context-path就必须卸载servlet:下面(不能不写)
   servlet:
+# 指定web应用的访问路径,(在同一个IP的服务器上同时部署多个web项目时, 需要通过路径分流到不同web项目上)
     context-path: /spring-boot-testing
+# 指定端口号
   port: 9090
+# springBoot的相关配置: 数据库,缓存, 应用名,国际化,消息队列等
 spring:
+# 对spring application实例的配置
   application:
+# 配置应用名(用于log输出应用名, 分布式链路追踪时标识调用方, 注册到服务注册中心时作为服务名, 单体简单部署的项目可以没有)
     name: spring boot testing
+# spring DATA项目的相关配置入口, MongoDB、JPA、Redis、Cassandra等
   data:
+# MongoDB相关的配置
     mongodb:
+# 配置MongoDB的数据库连接URL用于连接数据库
       uri: mongodb://localhost:27017/product-service
+# 数据库配置还可以放登录的账号密码等敏感信息, 但最好不要明文写在这里, 可以写成环境变量在这里引用
