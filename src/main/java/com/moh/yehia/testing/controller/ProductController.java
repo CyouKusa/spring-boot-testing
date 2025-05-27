@@ -41,7 +41,7 @@ public class ProductController {
         log.info("ProductController :: save :: start");
         return productService.save(productRequest);
     }
-
+    // put是RESTful请求中的更新,指将传入的id对象的值替换为传入的值
     @PutMapping("/{id}")
     public Product update(@PathVariable("id") String id, @RequestBody ProductRequest productRequest) {
         log.info("ProductController :: update :: start");

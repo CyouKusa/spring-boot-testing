@@ -21,9 +21,10 @@ import static com.moh.yehia.testing.asserts.ProjectAssertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryServiceTest {
-
+	// service层的测试因为脱离Spring容器, 所以可以不用@MockBean来模拟容器中的对象, 只需要使用@Mock将service依赖的Repository对象替换为Mock对象即可
     @Mock
     private CategoryRepository categoryRepository;
+    // 依赖注入到准备测试的service类上(本CategoryTest测的就是CategoryServiceImpl类中的各方法的业务逻辑)以实现对对象类的单体测试
     @InjectMocks
     private CategoryServiceImpl categoryService;
 
@@ -33,18 +34,21 @@ class CategoryServiceTest {
     static void initializeFaker() {
         faker = new Faker(Locale.ENGLISH);
     }
-
+    
     @Test
     void shouldReturnCategories() {
-        // mock
+        // 模拟一个DAO的返回结果
         List<Category> categories = populateCategoriesList();
-        // given
+        // 模拟repository的方法将生成的返回结果传回给service
         BDDMockito.given(categoryRepository.findAll()).willReturn(categories);
-        // when
+        // 调用service的方法,获得运行结果
         List<Category> retrievedCategories = categoryService.findAll();
-        // then or assertions
+        // 用Assertj的方法断言比较前后两个list
+        // 确认运行结果不为null
         Assertions.assertThat(retrievedCategories).isNotNull()
+        		// 确认运行结果与mock的对象容量相同
                 .hasSameSizeAs(categories)
+                // 确认运行结果中的每个对象不为null
                 .doesNotContainNull();
     }
 

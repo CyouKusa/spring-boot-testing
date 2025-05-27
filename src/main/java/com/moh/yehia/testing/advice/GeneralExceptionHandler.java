@@ -24,7 +24,7 @@ import java.util.List;
 // controller层的切片, advice通知类
 // 这个注解与@ExceptionHandler构成一组, spring会扫描出这两个注解,并将@ExceptionHandler标注的方法用于当controller接收到请求但在正确返回前抛出异常的时候执行这个方法向前端返回返回值
 @ControllerAdvice
-// 用于自动生成lombok标准格式的log,这里是注入了Log4j2的实例,以便后面使用log.info()、log.error()、log.debug()方法来手动打印log
+// 用于自动生成lombok标准格式的log,这里是注入了Log4j2的实例,以便后面使用log.info()、log.error()、log.debug()方法来手动打印log,
 @Log4j2
 //继承了Springmvc框架自带的ResponseEntityExceptionHandler异常处理基类, 用于进行全局异常处理
 // ResponseEntityExceptionHandler自带很多标准的异常处理, 继承即可自动对相关异常进行处理,不写@ExceptionHandler都可以. 只对新追加的全局异常处理方法写@ExceptionHandler即可
